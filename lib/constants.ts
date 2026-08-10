@@ -88,6 +88,18 @@ export const CONTACTS = {
   email: "hello@ik-house.kg",
 };
 
+/** Контакты разработчика сайта (developer credit в футере).
+ *  Не путать с контактами IK-HOUSE и владельцев жилья. */
+export const DEVELOPER_CONTACTS = {
+  name: "Иван Юрьевич",
+  instagram: "ivan.yurievch",
+  instagramUrl: "https://www.instagram.com/ivan.yurievch/",
+  whatsappDisplay: "+90 534 431 28 25",
+  whatsappNumber: "905344312825",
+  whatsappMessage:
+    "Здравствуйте, Иван Юрьевич! Увидел разработанный вами сайт IK-HOUSE. Хотел бы обсудить разработку сайта.",
+};
+
 export function ratingLabel(rating: number): string {
   if (rating >= 4.8) return "Превосходно";
   if (rating >= 4.5) return "Отлично";

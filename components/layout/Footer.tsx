@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, Send, MessageCircle } from "lucide-react";
 import Logo from "@/components/layout/Logo";
+import DeveloperCredit from "@/components/layout/DeveloperCredit";
 import { CONTACTS } from "@/lib/constants";
 
 const COLS: { title: string; links: { label: string; href: string }[] }[] = [
@@ -100,6 +101,8 @@ export default function Footer() {
           <span>Сделано для отдыха на самом большом горном озере.</span>
         </div>
       </div>
+
+      <DeveloperCredit />
     </footer>
   );
 }
