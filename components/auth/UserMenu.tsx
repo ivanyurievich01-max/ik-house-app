@@ -11,6 +11,7 @@ import {
   Heart,
   Settings,
   LogOut,
+  KeyRound,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
@@ -29,6 +30,7 @@ type ProfileLite = {
 export function useAuthUser() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<ProfileLite | null>(null);
+  const [isOwner, setIsOwner] = useState(false);
   const [ready, setReady] = useState(!configured);
 
   useEffect(() => {
@@ -38,14 +40,23 @@ export function useAuthUser() {
     async function load(u: User | null) {
       setUser(u);
       if (u) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("first_name, last_name, avatar_url")
-          .eq("id", u.id)
-          .maybeSingle();
+        const [{ data }, { data: owner }] = await Promise.all([
+          supabase
+            .from("profiles")
+            .select("first_name, last_name, avatar_url")
+            .eq("id", u.id)
+            .maybeSingle(),
+          supabase
+            .from("owner_profiles")
+            .select("id")
+            .eq("user_id", u.id)
+            .maybeSingle(),
+        ]);
         setProfile((data as ProfileLite) ?? null);
+        setIsOwner(!!owner);
       } else {
         setProfile(null);
+        setIsOwner(false);
       }
       setReady(true);
     }
@@ -60,7 +71,7 @@ export function useAuthUser() {
     return () => subscription.unsubscribe();
   }, []);
 
-  return { user, profile, ready };
+  return { user, profile, isOwner, ready };
 }
 
 function displayName(user: User, profile: ProfileLite | null): string {
@@ -110,8 +121,17 @@ const MENU = [
   { label: "Настройки", href: "/account/profile", icon: Settings },
 ];
 
+function menuFor(isOwner: boolean) {
+  return [
+    ...MENU,
+    isOwner
+      ? { label: "Панель владельца", href: "/owner", icon: KeyRound }
+      : { label: "Стать владельцем", href: "/owner/onboarding", icon: KeyRound },
+  ];
+}
+
 export default function UserMenu() {
-  const { user, profile, ready } = useAuthUser();
+  const { user, profile, isOwner, ready } = useAuthUser();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -163,7 +183,7 @@ export default function UserMenu() {
 
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg">
-          {MENU.map((item) => (
+          {menuFor(isOwner).map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -190,7 +210,7 @@ export default function UserMenu() {
 
 /** Блок для мобильного меню */
 export function UserMenuMobile({ onNavigate }: { onNavigate?: () => void }) {
-  const { user, profile, ready } = useAuthUser();
+  const { user, profile, isOwner, ready } = useAuthUser();
   const router = useRouter();
 
   async function signOut() {
@@ -226,7 +246,7 @@ export function UserMenuMobile({ onNavigate }: { onNavigate?: () => void }) {
           <div className="truncate text-xs text-ink-muted">{user.email}</div>
         </div>
       </div>
-      {MENU.map((item) => (
+      {menuFor(isOwner).map((item) => (
         <Link
           key={item.href}
           href={item.href}

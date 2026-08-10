@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { CalendarCheck, Heart, ArrowRight, Home } from "lucide-react";
+import { CalendarCheck, Heart, ArrowRight, Home, KeyRound } from "lucide-react";
 import { redirect } from "next/navigation";
+import { getMyOwnerProfile } from "@/lib/db/owner";
 import {
   getSessionUser,
   getMyBookings,
@@ -18,9 +19,10 @@ export default async function AccountOverviewPage() {
   const session = await getSessionUser();
   if (!session) redirect("/auth/login?next=/account");
 
-  const [bookings, favoriteIds] = await Promise.all([
+  const [bookings, favoriteIds, ownerProfile] = await Promise.all([
     getMyBookings(),
     getMyFavoriteIds(),
+    getMyOwnerProfile(),
   ]);
 
   const active = bookings.filter(
@@ -135,6 +137,31 @@ export default async function AccountOverviewPage() {
             })}
           </div>
         )}
+      </div>
+
+      {/* CTA владельца */}
+      <div className="mt-8 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-500 p-6 text-white">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div>
+            <div className="flex items-center gap-2 font-bold">
+              <KeyRound className="h-5 w-5" />
+              {ownerProfile
+                ? "Панель владельца"
+                : "Сдаёте жильё на Иссык-Куле?"}
+            </div>
+            <p className="mt-1 text-sm text-white/85">
+              {ownerProfile
+                ? "Управляйте объектами, календарём и заявками гостей."
+                : "Добавьте свой объект в IK-HOUSE и получайте заявки от гостей."}
+            </p>
+          </div>
+          <Link
+            href={ownerProfile ? "/owner" : "/owner/onboarding"}
+            className="shrink-0 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-brand-50"
+          >
+            {ownerProfile ? "Открыть панель" : "Стать владельцем"}
+          </Link>
+        </div>
       </div>
     </div>
   );

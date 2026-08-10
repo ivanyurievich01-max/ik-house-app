@@ -32,21 +32,10 @@ export type BookingRow = {
   } | null;
 };
 
-export const BOOKING_STATUS_LABELS: Record<BookingRow["status"], string> = {
-  pending: "Ожидает подтверждения",
-  confirmed: "Подтверждено",
-  declined: "Отклонено",
-  cancelled: "Отменено",
-  completed: "Завершено",
-};
-
-export const BOOKING_STATUS_STYLES: Record<BookingRow["status"], string> = {
-  pending: "bg-amber-50 text-amber-700",
-  confirmed: "bg-emerald-50 text-emerald-700",
-  declined: "bg-rose-50 text-rose-600",
-  cancelled: "bg-slate-100 text-ink-muted",
-  completed: "bg-slate-100 text-ink-soft",
-};
+export {
+  BOOKING_STATUS_LABELS,
+  BOOKING_STATUS_STYLES,
+} from "@/lib/booking-status";
 
 export async function getSessionUser(): Promise<{
   user: User;
