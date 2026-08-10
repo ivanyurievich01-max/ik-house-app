@@ -12,6 +12,7 @@ import {
   Settings,
   LogOut,
   KeyRound,
+  ShieldCheck,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
@@ -25,6 +26,7 @@ type ProfileLite = {
   first_name: string;
   last_name: string;
   avatar_url: string | null;
+  role?: string;
 };
 
 export function useAuthUser() {
@@ -43,7 +45,7 @@ export function useAuthUser() {
         const [{ data }, { data: owner }] = await Promise.all([
           supabase
             .from("profiles")
-            .select("first_name, last_name, avatar_url")
+            .select("first_name, last_name, avatar_url, role")
             .eq("id", u.id)
             .maybeSingle(),
           supabase
@@ -121,12 +123,15 @@ const MENU = [
   { label: "Настройки", href: "/account/profile", icon: Settings },
 ];
 
-function menuFor(isOwner: boolean) {
+function menuFor(isOwner: boolean, isAdmin: boolean) {
   return [
     ...MENU,
     isOwner
       ? { label: "Панель владельца", href: "/owner", icon: KeyRound }
       : { label: "Стать владельцем", href: "/owner/onboarding", icon: KeyRound },
+    ...(isAdmin
+      ? [{ label: "Админ-панель", href: "/admin", icon: ShieldCheck }]
+      : []),
   ];
 }
 
@@ -183,7 +188,7 @@ export default function UserMenu() {
 
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg">
-          {menuFor(isOwner).map((item) => (
+          {menuFor(isOwner, profile?.role === "admin").map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -246,7 +251,7 @@ export function UserMenuMobile({ onNavigate }: { onNavigate?: () => void }) {
           <div className="truncate text-xs text-ink-muted">{user.email}</div>
         </div>
       </div>
-      {menuFor(isOwner).map((item) => (
+      {menuFor(isOwner, profile?.role === "admin").map((item) => (
         <Link
           key={item.href}
           href={item.href}

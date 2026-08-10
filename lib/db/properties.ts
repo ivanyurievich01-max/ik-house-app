@@ -29,7 +29,7 @@ const DEFAULT_OWNER: Owner = {
   avatar: "",
 };
 
-type DbRow = {
+export type DbRow = {
   id: string;
   slug: string;
   title: string;
@@ -63,7 +63,7 @@ type DbRow = {
   } | null;
 };
 
-const SELECT = `
+export const PROPERTY_SELECT = `
   id, slug, title, type, location, shore, address, distance_to_beach,
   rating, reviews_count, price_per_night, old_price,
   max_guests, bedrooms, beds, bathrooms, description,
@@ -73,7 +73,7 @@ const SELECT = `
   owner:owner_profiles ( display_name, verification_status, public_phone, whatsapp, avatar_url, show_public_contact )
 `;
 
-function mapRow(row: DbRow): Property {
+export function mapRow(row: DbRow): Property {
   const images = [...(row.property_images ?? [])]
     .sort((a, b) => Number(b.is_cover) - Number(a.is_cover) || a.sort_order - b.sort_order)
     .map((i) => i.url);
@@ -133,7 +133,7 @@ export async function getPublishedProperties(): Promise<Property[]> {
     const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("properties")
-      .select(SELECT)
+      .select(PROPERTY_SELECT)
       .eq("status", "published")
       .order("featured", { ascending: false })
       .order("rating", { ascending: false });
@@ -152,7 +152,7 @@ export async function getPropertyBySlug(slug: string): Promise<Property | null> 
     const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("properties")
-      .select(SELECT)
+      .select(PROPERTY_SELECT)
       .eq("status", "published")
       .eq("slug", slug)
       .maybeSingle();
