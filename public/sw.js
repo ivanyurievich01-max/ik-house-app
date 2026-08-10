@@ -5,7 +5,7 @@
  * (/account, /owner, /admin), POST-запросы. Бронирование offline невозможно —
  * пользователь видит honest offline-страницу, а не «заявка отправлена».
  */
-const VERSION = "ikh-v1";
+const VERSION = "ikh-v2";
 const STATIC_CACHE = `${VERSION}-static`;
 const IMAGE_CACHE = `${VERSION}-images`;
 const PAGE_CACHE = `${VERSION}-pages`;
