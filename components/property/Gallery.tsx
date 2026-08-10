@@ -17,6 +17,7 @@ export default function Gallery({
 }) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [touchX, setTouchX] = useState<number | null>(null);
 
   const total = images.length;
   const go = useCallback(
@@ -115,7 +116,16 @@ export default function Gallery({
             </button>
           </div>
 
-          <div className="relative flex flex-1 items-center justify-center px-2 sm:px-6">
+          <div
+            className="relative flex flex-1 items-center justify-center px-2 sm:px-6"
+            onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
+            onTouchEnd={(e) => {
+              if (touchX === null) return;
+              const dx = e.changedTouches[0].clientX - touchX;
+              if (Math.abs(dx) > 48) go(dx < 0 ? 1 : -1);
+              setTouchX(null);
+            }}
+          >
             <button
               onClick={() => go(-1)}
               aria-label="Предыдущее фото"

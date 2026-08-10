@@ -10,7 +10,10 @@ export default function MobileStickyCta({
   slug: string;
 }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.2)] backdrop-blur lg:hidden">
+    <div
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.2)] backdrop-blur lg:hidden"
+      style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+    >
       <div className="container-page flex items-center justify-between gap-3">
         <div>
           <div className="text-[11px] uppercase tracking-wide text-ink-muted">

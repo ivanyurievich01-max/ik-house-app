@@ -24,6 +24,7 @@ import MapBlock from "@/components/property/MapBlock";
 import PropertyReviews from "@/components/property/PropertyReviews";
 import SimilarProperties from "@/components/property/SimilarProperties";
 import MobileStickyCta from "@/components/property/MobileStickyCta";
+import ShareButton from "@/components/property/ShareButton";
 
 export const revalidate = 60;
 
@@ -116,12 +117,22 @@ export default async function PropertyPage({
         <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Основной контент */}
           <div className="lg:col-span-2">
-            <span className="chip mb-2 bg-brand-50 text-brand-700">
-              {TYPE_LABELS[property.type]}
-            </span>
-            <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">
-              {property.title}
-            </h1>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <span className="chip mb-2 bg-brand-50 text-brand-700">
+                  {TYPE_LABELS[property.type]}
+                </span>
+                <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">
+                  {property.title}
+                </h1>
+              </div>
+              <div className="shrink-0 pt-1">
+                <ShareButton
+                  title={`${property.title} — IK-HOUSE`}
+                  text={`${property.title}, ${property.location}. Жильё на Иссык-Куле.`}
+                />
+              </div>
+            </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-ink-soft">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin className="h-4 w-4 text-brand-500" />

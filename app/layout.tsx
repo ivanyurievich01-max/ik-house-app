@@ -1,12 +1,34 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import BottomNav from "@/components/layout/BottomNav";
+import PwaProvider from "@/components/pwa/PwaProvider";
 import Analytics from "@/components/Analytics";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#2563eb",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ik-house.kg"),
+  metadataBase: new URL("https://ik-house-app.vercel.app"),
+  applicationName: "IK-HOUSE",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "IK-HOUSE",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/icons/apple-touch-icon.png",
+  },
   title: {
     default: "Аренда жилья на Иссык-Куле | IK-HOUSE",
     template: "%s | IK-HOUSE",
@@ -57,8 +79,10 @@ export default function RootLayout({
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            <BottomNav />
           </div>
         </FavoritesProvider>
+        <PwaProvider />
         <Analytics />
       </body>
     </html>

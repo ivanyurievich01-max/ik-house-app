@@ -167,3 +167,28 @@ date-fns · lucide-react
 ---
 
 © 2026 IK-HOUSE
+
+## Mobile + PWA (Этап 4)
+
+IK-HOUSE — один Next.js-проект, обслуживающий Desktop Web, Mobile Web и installable PWA.
+
+### Мобильная навигация
+- Нижняя навигация (`components/layout/BottomNav.tsx`): Главная · Поиск · Избранное · Заявки · Профиль; в разделе владельца — Обзор · Объекты · Добавить · Заявки · Профиль. Fixed, safe-area aware, скрывается на страницах со sticky-CTA (объект, бронирование, мастер, админка).
+- Sticky booking CTA на странице объекта (`MobileStickyCta`) и sticky-контролы мастера учитывают `env(safe-area-inset-bottom)`.
+
+### PWA
+- Манифест: `app/manifest.ts` (name, standalone, theme #2563eb, shortcuts).
+- Иконки: `public/icons/` — 192, 512, maskable-512, apple-touch-icon (180).
+- iOS: `appleWebApp` metadata + `viewport-fit=cover` в `app/layout.tsx`.
+- Установка: Android — баннер по `beforeinstallprompt` (не сразу, dismissible); iPhone — подсказка «Поделиться → На экран Домой» через 20 сек, с сохранением dismissed-state (`components/pwa/PwaProvider.tsx`).
+
+### Service Worker (`public/sw.js`)
+Кэшируется: `/_next/static/*` и `/icons/*` (cache-first, иммутабельно), изображения (cache-first, лимит 60), публичные страницы (network-first с offline-fallback), офлайн-страница `public/offline.html`.
+НЕ кэшируется: `/api/*`, все запросы к `*.supabase.co` (auth и данные), приватные разделы `/account`, `/owner`, `/admin`, `/auth`, любые не-GET запросы. Бронирование офлайн невозможно — показывается честная офлайн-страница, «ложных заявок» нет.
+Обновление версии: при новом деплое появляется toast «Доступна новая версия — Обновить» (skipWaiting + reload).
+
+### Как проверить
+- Android (Chrome): открыть сайт → появится «Установить IK-HOUSE» (или меню ⋮ → «Добавить на гл. экран»).
+- iPhone (Safari): «Поделиться» → «На экран “Домой”».
+- Offline: DevTools → Network → Offline → перейти на страницу → offline.html.
+- Standalone: запустить установленное приложение — открывается без браузерного интерфейса.
