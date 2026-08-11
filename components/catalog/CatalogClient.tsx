@@ -55,12 +55,22 @@ export default function CatalogClient({ properties }: { properties: Property[] }
   const [drawerOpen, setDrawerOpen] = useState(false);
   const skipSync = useRef(false);
 
-  // Синхронизация state -> URL
+  // Синхронизация state -> URL.
+  // ВАЖНО: сохраняем не-фильтровые параметры (checkin/checkout из поиска),
+  // иначе canonical-replace вымывал даты из URL сразу после перехода.
   useEffect(() => {
     const qs = serializeFilters(filters);
-    if (qs !== spString) {
+    const extra = new URLSearchParams();
+    const ci = searchParams.get("checkin");
+    const co = searchParams.get("checkout");
+    if (ci) extra.set("checkin", ci);
+    if (co) extra.set("checkout", co);
+    const merged = [qs, extra.toString()].filter(Boolean).join("&");
+    if (merged !== spString) {
       skipSync.current = true;
-      router.replace(qs ? `/catalog?${qs}` : "/catalog", { scroll: false });
+      router.replace(merged ? `/catalog?${merged}` : "/catalog", {
+        scroll: false,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
