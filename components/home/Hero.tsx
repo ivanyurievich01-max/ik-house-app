@@ -59,18 +59,21 @@ export default function Hero() {
               Иссык-Куле.
             </p>
 
-            {/* Trust items — компактная горизонтальная строка на desktop */}
-            <div className="mt-4 grid grid-cols-1 gap-2.5 sm:mt-5 sm:grid-cols-3 sm:gap-5">
+            {/* Trust items — 3 в одну строку и на mobile (утверждённый макет) */}
+            <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-5">
               {TRUST.map((t) => (
-                <div key={t.title} className="flex items-start gap-2.5">
+                <div
+                  key={t.title}
+                  className="flex flex-col items-start gap-1.5 sm:flex-row sm:gap-2.5"
+                >
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white/12 backdrop-blur">
                     <t.icon className="h-4 w-4 text-white" />
                   </span>
-                  <span>
-                    <span className="block text-sm font-bold leading-tight">
+                  <span className="min-w-0">
+                    <span className="block text-[13px] font-bold leading-tight sm:text-sm">
                       {t.title}
                     </span>
-                    <span className="mt-0.5 block text-xs text-white/70">
+                    <span className="mt-0.5 block text-[11px] leading-snug text-white/70 sm:text-xs">
                       {t.text}
                     </span>
                   </span>

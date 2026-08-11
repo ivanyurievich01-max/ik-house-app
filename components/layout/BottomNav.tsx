@@ -72,7 +72,7 @@ export default function BottomNav() {
       />
       <nav
         aria-label="Основная навигация"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#0b1630]/95 backdrop-blur lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="mx-auto flex h-16 max-w-lg items-stretch">
@@ -87,7 +87,7 @@ export default function BottomNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition",
-                  active ? "text-brand-600" : "text-ink-muted",
+                  active ? "text-brand-400" : "text-slate-400",
                 )}
               >
                 <span
@@ -96,7 +96,7 @@ export default function BottomNav() {
                     item.accent
                       ? "h-9 w-9 bg-brand-600 text-white shadow-sm"
                       : "h-7 w-9",
-                    active && !item.accent && "bg-brand-50",
+                    active && !item.accent && "bg-white/10",
                   )}
                 >
                   <item.icon className={item.accent ? "h-5 w-5" : "h-5 w-5"} />

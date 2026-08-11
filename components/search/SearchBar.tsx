@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MapPin, Home, ArrowRight, Search } from "lucide-react";
+import { MapPin, Home, ArrowRight, Search, ChevronRight } from "lucide-react";
 import GuestSelector from "@/components/search/GuestSelector";
 import DateRangePicker from "@/components/search/DateRangePicker";
+import OptionSheet from "@/components/search/OptionSheet";
 import { LOCATIONS, TYPE_LABELS, FILTER_TYPES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,8 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
   const [type, setType] = useState("");
+  const [locSheet, setLocSheet] = useState(false);
+  const [typeSheet, setTypeSheet] = useState(false);
 
   function submit() {
     const params = new URLSearchParams();
@@ -46,24 +49,115 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
   }
 
   const hero = variant === "hero";
+  const typeLabel = TYPE_OPTIONS.find((o) => o.value === type)?.label ?? "Любой тип";
 
   return (
     <div
       className={cn(
-        "rounded-2xl border border-slate-200 bg-white p-3 shadow-card-hover",
-        hero ? "sm:p-4 lg:rounded-[20px]" : "",
+        "rounded-2xl border border-slate-200 bg-white shadow-card-hover",
+        hero ? "p-2 lg:rounded-[20px] lg:p-4" : "p-3",
       )}
     >
+      {/* ===== Mobile / tablet: компактная row-панель как в утверждённом макете ===== */}
+      <div className="lg:hidden">
+        {/* Локация */}
+        <button
+          type="button"
+          onClick={() => setLocSheet(true)}
+          className="flex w-full items-center gap-3 px-4 py-3 text-left"
+        >
+          <MapPin className="h-5 w-5 shrink-0 text-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
+              Куда хотите?
+            </span>
+            <span className="block truncate text-[15px] font-bold text-ink">
+              {location}
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 shrink-0 text-ink-muted" />
+        </button>
+
+        <div className="mx-4 border-t border-slate-100" />
+
+        {/* Заезд — Выезд */}
+        <DateRangePicker
+          variant="row"
+          checkIn={checkIn}
+          checkOut={checkOut}
+          onChange={(next) => {
+            setCheckIn(next.checkIn);
+            setCheckOut(next.checkOut);
+          }}
+        />
+
+        <div className="mx-4 border-t border-slate-100" />
+
+        {/* Гости | Тип жилья */}
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <GuestSelector
+            variant="row"
+            adults={adults}
+            kids={children}
+            onChange={(n) => {
+              setAdults(n.adults);
+              setChildren(n.children);
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => setTypeSheet(true)}
+            className="flex w-full items-center gap-2.5 border-l border-slate-100 px-4 py-3 text-left"
+          >
+            <Home className="h-5 w-5 shrink-0 text-ink" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
+                Тип жилья
+              </span>
+              <span className="block truncate text-[15px] font-bold text-ink">
+                {typeLabel}
+              </span>
+            </span>
+            <ChevronRight className="h-4 w-4 shrink-0 text-ink-muted" />
+          </button>
+        </div>
+
+        {/* CTA */}
+        <div className="px-2 pb-2 pt-1.5">
+          <button onClick={submit} className="btn-cta h-14 w-full rounded-2xl text-base">
+            Показать варианты <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        <OptionSheet
+          open={locSheet}
+          title="Куда хотите?"
+          options={LOCATION_OPTIONS.map((o) => ({ value: o, label: o }))}
+          value={location}
+          onSelect={setLocation}
+          onClose={() => setLocSheet(false)}
+        />
+        <OptionSheet
+          open={typeSheet}
+          title="Тип жилья"
+          options={TYPE_OPTIONS}
+          value={type}
+          onSelect={setType}
+          onClose={() => setTypeSheet(false)}
+        />
+      </div>
+
+      {/* ===== Desktop: единая горизонтальная панель ===== */}
       <div
         className={cn(
-          "grid grid-cols-1 gap-3",
+          "hidden gap-3 lg:grid",
           hero
-            ? "lg:grid-cols-[1.35fr_1.7fr_1fr_1fr_auto] lg:items-end"
-            : "md:grid-cols-12",
+            ? "lg:grid-cols-[1.3fr_1.35fr_1fr_1fr_auto] lg:items-end"
+            : "lg:grid-cols-12",
         )}
       >
         {/* Локация */}
-        <div className={hero ? "" : "md:col-span-4"}>
+        <div className={hero ? "" : "lg:col-span-4"}>
           <label className="label">Куда хотите?</label>
           <div className="relative">
             <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
@@ -82,8 +176,8 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
           </div>
         </div>
 
-        {/* Заезд — Выезд: единый range picker */}
-        <div className={hero ? "" : "md:col-span-4"}>
+        {/* Заезд — Выезд */}
+        <div className={hero ? "" : "lg:col-span-3"}>
           <label className="label">Заезд — Выезд</label>
           <DateRangePicker
             checkIn={checkIn}
@@ -96,7 +190,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         </div>
 
         {/* Гости */}
-        <div className={hero ? "" : "md:col-span-2"}>
+        <div className={hero ? "" : "lg:col-span-2"}>
           <label className="label">Гости</label>
           <GuestSelector
             adults={adults}
@@ -109,7 +203,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         </div>
 
         {/* Тип жилья */}
-        <div className={hero ? "" : "md:col-span-2"}>
+        <div className={hero ? "" : "lg:col-span-2"}>
           <label className="label">Тип жилья</label>
           <div className="relative">
             <Home className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
@@ -129,7 +223,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         </div>
 
         {/* Кнопка */}
-        <div className={hero ? "flex items-end" : "flex items-end md:col-span-12"}>
+        <div className={hero ? "flex items-end" : "flex items-end lg:col-span-1"}>
           <button onClick={submit} className="btn-cta h-[42px] w-full lg:whitespace-nowrap lg:px-5">
             {hero ? (
               <>

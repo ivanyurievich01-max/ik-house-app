@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronRight as Chevron } from "lucide-react";
 import { todayISO, toISODate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -107,14 +108,21 @@ function MonthGrid({
   );
 }
 
+function fmtDots(iso: string): string {
+  return `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}`;
+}
+
 export default function DateRangePicker({
   checkIn,
   checkOut,
   onChange,
+  variant = "field",
 }: {
   checkIn: string;
   checkOut: string;
   onChange: (next: { checkIn: string; checkOut: string }) => void;
+  /** field — обычное поле (desktop); row — строка мобильной search-панели */
+  variant?: "field" | "row";
 }) {
   const [open, setOpen] = useState(false);
   const [hoverDate, setHoverDate] = useState("");
@@ -232,24 +240,56 @@ export default function DateRangePicker({
     </>
   );
 
+  const rowLabel =
+    checkIn && checkOut
+      ? `${fmtDots(checkIn)} — ${fmtDots(checkOut)}`
+      : checkIn
+        ? `${fmtDots(checkIn)} — выезд?`
+        : "Выберите даты";
+
   return (
     <div className="relative" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Заезд — выезд"
-        className="flex w-full items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-left text-sm transition hover:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-      >
-        <Calendar className="h-4 w-4 shrink-0 text-ink-muted" />
-        <span
-          className={cn(
-            "flex-1 truncate",
-            checkIn ? "text-ink" : "text-slate-400",
-          )}
+      {variant === "row" ? (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Заезд — выезд"
+          className="flex w-full items-center gap-3 px-4 py-3 text-left"
         >
-          {label}
-        </span>
-      </button>
+          <Calendar className="h-5 w-5 shrink-0 text-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
+              Заезд — Выезд
+            </span>
+            <span
+              className={cn(
+                "block truncate text-[15px] font-bold",
+                checkIn ? "text-ink" : "text-ink-soft",
+              )}
+            >
+              {rowLabel}
+            </span>
+          </span>
+          <Chevron className="h-4 w-4 shrink-0 text-ink-muted" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Заезд — выезд"
+          className="flex w-full items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-left text-sm transition hover:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+        >
+          <Calendar className="h-4 w-4 shrink-0 text-ink-muted" />
+          <span
+            className={cn(
+              "flex-1 truncate",
+              checkIn ? "text-ink" : "text-slate-400",
+            )}
+          >
+            {label}
+          </span>
+        </button>
+      )}
 
       {open && (
         <>

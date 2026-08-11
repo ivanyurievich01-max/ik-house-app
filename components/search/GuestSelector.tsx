@@ -8,10 +8,13 @@ export default function GuestSelector({
   adults,
   kids,
   onChange,
+  variant = "field",
 }: {
   adults: number;
   kids: number;
   onChange: (next: { adults: number; children: number }) => void;
+  /** field — обычное поле (desktop); row — половинка строки мобильной панели */
+  variant?: "field" | "row";
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -73,16 +76,34 @@ export default function GuestSelector({
   );
 
   return (
-    <div className="relative" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-left text-sm text-ink transition hover:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-      >
-        <Users className="h-4 w-4 text-ink-muted" />
-        <span className="flex-1 truncate">{pluralGuests(total)}</span>
-        <ChevronDown className="h-4 w-4 text-ink-muted" />
-      </button>
+    <div className={variant === "row" ? "" : "relative"} ref={ref}>
+      {variant === "row" ? (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center gap-2.5 px-4 py-3 text-left"
+        >
+          <Users className="h-5 w-5 shrink-0 text-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
+              Гости
+            </span>
+            <span className="block truncate text-[15px] font-bold text-ink">
+              {pluralGuests(total)}
+            </span>
+          </span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-left text-sm text-ink transition hover:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+        >
+          <Users className="h-4 w-4 text-ink-muted" />
+          <span className="flex-1 truncate">{pluralGuests(total)}</span>
+          <ChevronDown className="h-4 w-4 text-ink-muted" />
+        </button>
+      )}
 
       {open && (
         <>
