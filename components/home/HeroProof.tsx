@@ -10,11 +10,13 @@ import { Flame } from "lucide-react";
  * Ложных заявлений о доступности на конкретные даты не делаем (даты ещё
  * не выбраны), поэтому справа — честная формулировка. */
 
+/* Локальные аватары вымышленных людей (AI-generated, 100k-faces / generated.photos).
+ * Декоративные: без кликов, профилей и каких-либо аккаунтов. */
 const AVATARS = [
-  "/avatars/guest-1.png",
-  "/avatars/guest-2.png",
-  "/avatars/guest-3.png",
-  "/avatars/guest-4.png",
+  "/images/avatars/viewer-1.webp",
+  "/images/avatars/viewer-2.webp",
+  "/images/avatars/viewer-3.webp",
+  "/images/avatars/viewer-4.webp",
 ];
 
 export default function HeroProof() {
