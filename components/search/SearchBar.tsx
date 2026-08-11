@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MapPin, Calendar, Search } from "lucide-react";
+import { MapPin, Calendar, Home, ArrowRight, Search } from "lucide-react";
 import GuestSelector from "@/components/search/GuestSelector";
-import { LOCATIONS } from "@/lib/constants";
+import { LOCATIONS, TYPE_LABELS, FILTER_TYPES } from "@/lib/constants";
 import { todayISO, toISODate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,11 @@ const LOCATION_OPTIONS = [
   ...LOCATIONS,
   "Южный берег",
   "Северный берег",
+];
+
+const TYPE_OPTIONS: { value: string; label: string }[] = [
+  { value: "", label: "Любой тип" },
+  ...FILTER_TYPES.map((t) => ({ value: t, label: TYPE_LABELS[t] })),
 ];
 
 function nextDay(iso: string): string {
@@ -30,6 +35,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
   const [checkOut, setCheckOut] = useState("");
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
+  const [type, setType] = useState("");
 
   function handleCheckIn(v: string) {
     setCheckIn(v);
@@ -49,28 +55,38 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
     if (checkOut) params.set("checkout", checkOut);
     const guests = adults + children;
     if (guests > 0) params.set("guests", String(guests));
+    if (type) params.set("type", type);
 
     router.push(`/catalog?${params.toString()}`);
   }
+
+  const hero = variant === "hero";
 
   return (
     <div
       className={cn(
         "rounded-2xl border border-slate-200 bg-white p-3 shadow-card-hover",
-        variant === "hero" ? "sm:p-4" : "",
+        hero ? "sm:p-4 lg:rounded-[20px]" : "",
       )}
     >
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-3",
+          hero
+            ? "lg:grid-cols-[1.35fr_1.7fr_1fr_1fr_auto] lg:items-end"
+            : "md:grid-cols-12",
+        )}
+      >
         {/* Локация */}
-        <div className="md:col-span-4">
-          <label className="label">Локация</label>
+        <div className={hero ? "" : "md:col-span-4"}>
+          <label className="label">Куда хотите?</label>
           <div className="relative">
             <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="input appearance-none pl-9"
-              aria-label="Локация"
+              aria-label="Куда хотите поехать"
             >
               {LOCATION_OPTIONS.map((o) => (
                 <option key={o} value={o}>
@@ -81,40 +97,37 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
           </div>
         </div>
 
-        {/* Заезд */}
-        <div className="md:col-span-2">
-          <label className="label">Заезд</label>
-          <div className="relative">
-            <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
-            <input
-              type="date"
-              value={checkIn}
-              min={today}
-              onChange={(e) => handleCheckIn(e.target.value)}
-              className="input pl-9"
-              aria-label="Дата заезда"
-            />
-          </div>
-        </div>
-
-        {/* Выезд */}
-        <div className="md:col-span-2">
-          <label className="label">Выезд</label>
-          <div className="relative">
-            <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
-            <input
-              type="date"
-              value={checkOut}
-              min={checkIn ? nextDay(checkIn) : nextDay(today)}
-              onChange={(e) => setCheckOut(e.target.value)}
-              className="input pl-9"
-              aria-label="Дата выезда"
-            />
+        {/* Заезд — Выезд */}
+        <div className={hero ? "" : "md:col-span-4"}>
+          <label className="label">Заезд — Выезд</label>
+          <div className="grid min-w-0 grid-cols-2 gap-2">
+            <div className="relative min-w-0">
+              <Calendar className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+              <input
+                type="date"
+                value={checkIn}
+                min={today}
+                onChange={(e) => handleCheckIn(e.target.value)}
+                className="input min-w-0 pl-8 pr-1 text-sm"
+                aria-label="Дата заезда"
+              />
+            </div>
+            <div className="relative min-w-0">
+              <Calendar className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+              <input
+                type="date"
+                value={checkOut}
+                min={checkIn ? nextDay(checkIn) : nextDay(today)}
+                onChange={(e) => setCheckOut(e.target.value)}
+                className="input min-w-0 pl-8 pr-1 text-sm"
+                aria-label="Дата выезда"
+              />
+            </div>
           </div>
         </div>
 
         {/* Гости */}
-        <div className="md:col-span-2">
+        <div className={hero ? "" : "md:col-span-2"}>
           <label className="label">Гости</label>
           <GuestSelector
             adults={adults}
@@ -126,11 +139,39 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
           />
         </div>
 
+        {/* Тип жилья */}
+        <div className={hero ? "" : "md:col-span-2"}>
+          <label className="label">Тип жилья</label>
+          <div className="relative">
+            <Home className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="input appearance-none pl-9"
+              aria-label="Тип жилья"
+            >
+              {TYPE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         {/* Кнопка */}
-        <div className="flex items-end md:col-span-2">
-          <button onClick={submit} className="btn-cta h-[42px] w-full">
-            <Search className="h-4 w-4" />
-            Найти
+        <div className={hero ? "flex items-end" : "flex items-end md:col-span-12"}>
+          <button onClick={submit} className="btn-cta h-[42px] w-full lg:whitespace-nowrap lg:px-5">
+            {hero ? (
+              <>
+                Показать варианты <ArrowRight className="h-4 w-4" />
+              </>
+            ) : (
+              <>
+                <Search className="h-4 w-4" />
+                Найти
+              </>
+            )}
           </button>
         </div>
       </div>

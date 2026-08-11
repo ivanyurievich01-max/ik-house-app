@@ -203,6 +203,12 @@ export default async function PropertyPage({
               <AvailabilityCalendar
                 blockedDates={property.blockedDates ?? []}
               />
+              <MapBlock
+                compact
+                lat={property.coordinates.lat}
+                lng={property.coordinates.lng}
+                label={`${property.location}, Иссык-Куль`}
+              />
               <OwnerCard owner={property.owner} propertyTitle={property.title} />
             </div>
           </aside>

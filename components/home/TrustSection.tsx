@@ -1,70 +1,60 @@
 import {
   ShieldCheck,
-  PhoneCall,
-  Wallet,
+  BadgeCheck,
   Headphones,
-  Star,
-  Clock,
+  Zap,
+  Wallet,
 } from "lucide-react";
 
+/* Компактный горизонтальный блок преимуществ (как в референсе).
+ * Формулировки честные: не обещаем возврат денег — обещаем помощь. */
 const ITEMS = [
   {
     icon: ShieldCheck,
-    title: "Проверенные объекты",
-    text: "Каждый объект проходит базовую проверку перед публикацией.",
+    title: "Проверяем лично",
+    text: "Каждый объект мы проверяем сами",
   },
   {
-    icon: PhoneCall,
-    title: "Прямой контакт",
-    text: "Можно связаться с владельцем напрямую по телефону или в WhatsApp.",
-  },
-  {
-    icon: Wallet,
-    title: "Без скрытых условий",
-    text: "Итоговая стоимость видна заранее — никаких доплат на месте.",
+    icon: BadgeCheck,
+    title: "Гарантия заселения",
+    text: "Поможем решить проблему с заселением",
   },
   {
     icon: Headphones,
-    title: "Поддержка",
-    text: "Помогаем решить любые вопросы по бронированию до и во время поездки.",
+    title: "Поддержка 24/7",
+    text: "Всегда на связи — до и во время отдыха",
   },
   {
-    icon: Star,
-    title: "Реальные отзывы",
-    text: "Отзывы оставляют гости после реального проживания.",
+    icon: Zap,
+    title: "Быстрое бронирование",
+    text: "Удобный сайт и быстрая заявка",
   },
   {
-    icon: Clock,
-    title: "Удобное бронирование",
-    text: "Заявка на бронирование занимает меньше минуты.",
+    icon: Wallet,
+    title: "Без скрытых платежей",
+    text: "Цена на сайте понятна заранее",
   },
 ];
 
 export default function TrustSection() {
   return (
-    <section className="bg-white py-14">
+    <section className="bg-brand-50/60 py-8 sm:py-10">
       <div className="container-page">
-        <div className="mb-8 text-center">
-          <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-            Почему бронируют через IK-HOUSE
-          </h2>
-          <p className="mt-1 text-ink-muted">
-            Мы делаем отдых на Иссык-Куле простым и безопасным.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="mb-6 text-center text-2xl font-extrabold text-ink sm:text-3xl">
+          Почему выбирают IK-HOUSE?
+        </h2>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
           {ITEMS.map((it) => (
-            <div
-              key={it.title}
-              className="flex gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-brand-200 hover:shadow-card"
-            >
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
-                <it.icon className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-ink">{it.title}</h3>
-                <p className="mt-1 text-sm text-ink-muted">{it.text}</p>
-              </div>
+            <div key={it.title} className="flex flex-col items-center text-center">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-brand-600 shadow-soft">
+                <it.icon className="h-5.5 w-5.5 h-[22px] w-[22px]" />
+              </span>
+              <h3 className="mt-2.5 text-sm font-bold leading-tight text-ink">
+                {it.title}
+              </h3>
+              <p className="mt-1 text-xs leading-snug text-ink-muted">
+                {it.text}
+              </p>
             </div>
           ))}
         </div>

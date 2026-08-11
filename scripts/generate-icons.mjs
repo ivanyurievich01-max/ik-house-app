@@ -5,11 +5,14 @@
 import sharp from "sharp";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-// Пути домика — 1:1 из components/layout/Logo.tsx (viewBox 0 0 24 24)
+// Пути знака — 1:1 из components/layout/Logo.tsx (LogoMark, viewBox 0 0 48 48):
+// гора-крыша + дальняя гора + дом + дверь + волны.
 const HOUSE = `
-  <path d="M4 11.5 12 5l8 6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M6 10.5V18h12v-7.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M4 19c1.4-.9 2.6-.9 4 0s2.6.9 4 0 2.6-.9 4 0 2.6.9 4 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M28 21 35 13.5 43.5 23.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M7.5 27 21 12.5 33.5 26" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M13 25.5V33a2.5 2.5 0 0 0 2.5 2.5h11A2.5 2.5 0 0 0 29 33v-7.5" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M18.8 35v-4.2a2.2 2.2 0 0 1 4.4 0V35" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M7 41.5c2.4-1.9 5-1.9 7.4 0s5 1.9 7.4 0 5-1.9 7.4 0 5 1.9 7.4 0" stroke="#a5e3f5" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 `;
 
 const GRAD = `
@@ -24,7 +27,7 @@ function roundedSvg(size, radiusRatio, glyphRatio) {
   const r = Math.round(size * radiusRatio);
   const g = size * glyphRatio;
   const off = (size - g) / 2;
-  const scale = g / 24;
+  const scale = g / 48;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <defs>${GRAD}</defs>
   <rect width="${size}" height="${size}" rx="${r}" fill="url(#g)"/>
@@ -36,7 +39,7 @@ function roundedSvg(size, radiusRatio, glyphRatio) {
 function squareSvg(size, glyphRatio) {
   const g = size * glyphRatio;
   const off = (size - g) / 2;
-  const scale = g / 24;
+  const scale = g / 48;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <defs>${GRAD}</defs>
   <rect width="${size}" height="${size}" fill="url(#g)"/>

@@ -8,14 +8,33 @@ export default function MapBlock({
   lat,
   lng,
   label,
+  compact = false,
 }: {
   lat: number;
   lng: number;
   label: string;
+  compact?: boolean;
 }) {
-  const d = 0.03;
+  const d = compact ? 0.02 : 0.03;
   const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
   const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+
+  if (compact) {
+    return (
+      <div className="card overflow-hidden p-0">
+        <iframe
+          title={`Карта: ${label}`}
+          src={src}
+          className="h-40 w-full"
+          loading="lazy"
+        />
+        <div className="flex items-center gap-1.5 px-4 py-2.5 text-xs text-ink-soft">
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-brand-500" />
+          {label}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

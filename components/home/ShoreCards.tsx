@@ -4,23 +4,29 @@ import SafeImage from "@/components/ui/SafeImage";
 
 const SHORES = [
   {
-    href: "/catalog?shore=north",
-    title: "Северный берег",
-    desc: "Чолпон-Ата, Бостери, Корумду, Кара-Ой — центр курортной жизни, пляжи и развлечения.",
-    img: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=1200&q=70",
-  },
-  {
     href: "/catalog?shore=south",
     title: "Южный берег",
-    desc: "Тихий отдых, природа и уютные гостевые дома. Ближе к Сказке, Барскоону и юртам.",
-    img: "https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=1200&q=70",
+    desc: "Тишина, природа и чистый воздух",
+    chips: ["Спокойствие", "Природа", "Семейный отдых"],
+    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=70",
+    alt: "Закат на пляже южного берега Иссык-Куля",
+    overlay: "from-[#3a2410]/85 via-[#3a2410]/25",
+  },
+  {
+    href: "/catalog?shore=north",
+    title: "Северный берег",
+    desc: "Драйв, развлечения и уютные места",
+    chips: ["Кафе", "Развлечения", "Активный отдых"],
+    img: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1400&q=70",
+    alt: "Вечерние огни курорта на северном берегу Иссык-Куля",
+    overlay: "from-[#0b1c3a]/85 via-[#0b1c3a]/30",
   },
 ];
 
 export default function ShoreCards() {
   return (
-    <section className="container-page py-14">
-      <div className="mb-6">
+    <section className="container-page py-10 sm:py-12">
+      <div className="mb-5">
         <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
           Выберите берег
         </h2>
@@ -33,21 +39,33 @@ export default function ShoreCards() {
           <Link
             key={s.title}
             href={s.href}
-            className="group relative h-64 overflow-hidden rounded-2xl shadow-card"
+            className="group relative h-60 overflow-hidden rounded-2xl shadow-card sm:h-64"
           >
             <SafeImage
               src={s.img}
-              alt={s.title}
+              alt={s.alt}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+            <div
+              className={`absolute inset-0 bg-gradient-to-t ${s.overlay} to-transparent`}
+            />
+            <div className="absolute inset-0 flex flex-col justify-end p-5 text-white sm:p-6">
               <h3 className="text-2xl font-extrabold">{s.title}</h3>
-              <p className="mt-1 max-w-sm text-sm text-white/85">{s.desc}</p>
-              <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-xl bg-white/95 px-3.5 py-2 text-sm font-semibold text-ink transition group-hover:gap-2.5">
-                Смотреть жильё <ArrowRight className="h-4 w-4" />
+              <p className="mt-1 text-sm text-white/90">{s.desc}</p>
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {s.chips.map((c) => (
+                  <span
+                    key={c}
+                    className="rounded-full bg-white/18 px-2.5 py-1 text-xs font-medium backdrop-blur-sm"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+              <span className="mt-3.5 inline-flex w-fit items-center gap-1.5 rounded-xl bg-white/95 px-3.5 py-2 text-sm font-semibold text-ink transition group-hover:gap-2.5">
+                Смотреть варианты <ArrowRight className="h-4 w-4" />
               </span>
             </div>
           </Link>
