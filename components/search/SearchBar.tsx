@@ -107,14 +107,14 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
           <button
             type="button"
             onClick={() => setTypeSheet(true)}
-            className="flex w-full items-center gap-2.5 border-l border-slate-100 px-4 py-3 text-left"
+            className="flex w-full items-center gap-2 border-l border-slate-100 px-3 py-3 text-left"
           >
-            <Home className="h-5 w-5 shrink-0 text-ink" />
+            <Home className="h-[18px] w-[18px] shrink-0 text-ink" />
             <span className="min-w-0 flex-1">
               <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                 Тип жилья
               </span>
-              <span className="block truncate text-[15px] font-bold text-ink">
+              <span className="block truncate text-[14px] font-bold text-ink">
                 {typeLabel}
               </span>
             </span>
