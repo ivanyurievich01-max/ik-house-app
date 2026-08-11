@@ -87,7 +87,7 @@ export default function GuestSelector({
         >
           <Users className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[10px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[10px] font-semibold leading-tight tracking-tight text-ink">
               {pluralGuests(total)}
             </span>
             <span className="block truncate text-[9px] leading-tight text-ink-muted">

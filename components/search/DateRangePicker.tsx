@@ -273,7 +273,7 @@ export default function DateRangePicker({
           <span className="min-w-0 flex-1">
             <span
               className={cn(
-                "block truncate text-[10px] font-bold leading-tight",
+                "block truncate text-[10px] font-semibold leading-tight tracking-tight",
                 checkIn ? "text-ink" : "text-ink",
               )}
             >

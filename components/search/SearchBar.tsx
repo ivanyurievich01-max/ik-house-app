@@ -55,7 +55,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
     <div
       className={cn(
         "rounded-2xl border border-slate-200 bg-white shadow-card-hover",
-        hero ? "p-1.5 lg:rounded-[20px] lg:p-4" : "p-3",
+        hero ? "p-1 lg:rounded-[20px] lg:p-4" : "p-3",
       )}
     >
       {/* ===== Mobile / tablet: ОДНА горизонтальная строка (финальный макет) ===== */}
@@ -68,7 +68,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         >
           <MapPin className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[10px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[10px] font-semibold leading-tight tracking-tight text-ink">
               {location === "Весь Иссык-Куль" ? "Иссык-Куль" : location}
             </span>
             <span className="block truncate text-[9px] leading-tight text-ink-muted">
@@ -117,7 +117,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         >
           <Home className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[10px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[10px] font-semibold leading-tight tracking-tight text-ink">
               {typeLabel}
             </span>
             <span className="block truncate text-[9px] leading-tight text-ink-muted">
@@ -127,12 +127,12 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         </button>
 
         {/* Кнопка поиска */}
-        <div className="flex shrink-0 items-center pl-0.5">
+        <div className="flex shrink-0 items-center">
           <button
             type="button"
             onClick={submit}
             aria-label="Показать варианты"
-            className="grid h-[46px] w-[46px] place-items-center rounded-xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
+            className="grid h-[44px] w-[44px] place-items-center rounded-xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
           >
             <Search className="h-5 w-5" />
           </button>
