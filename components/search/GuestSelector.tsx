@@ -85,18 +85,30 @@ export default function GuestSelector({
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-30 mt-2 w-full min-w-[240px] rounded-2xl border border-slate-200 bg-white p-3 shadow-card-hover">
-          {row("Взрослые", "от 13 лет", adults, "adults", 1)}
-          <div className="border-t border-slate-100" />
-          {row("Дети", "0–12 лет", kids, "children", 0)}
-          <button
-            type="button"
+        <>
+          {/* Mobile: подложка bottom sheet */}
+          <div
+            className="fixed inset-0 z-[60] bg-ink/40 sm:hidden"
             onClick={() => setOpen(false)}
-            className="btn-outline mt-3 w-full py-2 text-xs"
-          >
-            Готово
-          </button>
-        </div>
+          />
+          {/* Desktop: попап под полем поверх любых секций;
+              Mobile: bottom sheet с учётом safe-area */}
+          <div className="fixed inset-x-0 bottom-0 z-[70] rounded-t-2xl border border-slate-200 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-card-hover sm:absolute sm:inset-x-auto sm:bottom-auto sm:left-0 sm:top-full sm:mt-2 sm:w-full sm:min-w-[250px] sm:rounded-2xl sm:p-3 sm:pb-3">
+            <div className="mb-1 text-sm font-bold text-ink sm:hidden">
+              Гости
+            </div>
+            {row("Взрослые", "от 13 лет", adults, "adults", 1)}
+            <div className="border-t border-slate-100" />
+            {row("Дети", "0–12 лет", kids, "children", 0)}
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="btn-outline mt-3 w-full py-2 text-xs"
+            >
+              Готово
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

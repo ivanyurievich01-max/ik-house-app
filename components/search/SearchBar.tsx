@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MapPin, Calendar, Home, ArrowRight, Search } from "lucide-react";
+import { MapPin, Home, ArrowRight, Search } from "lucide-react";
 import GuestSelector from "@/components/search/GuestSelector";
+import DateRangePicker from "@/components/search/DateRangePicker";
 import { LOCATIONS, TYPE_LABELS, FILTER_TYPES } from "@/lib/constants";
-import { todayISO, toISODate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 const LOCATION_OPTIONS = [
@@ -20,15 +20,8 @@ const TYPE_OPTIONS: { value: string; label: string }[] = [
   ...FILTER_TYPES.map((t) => ({ value: t, label: TYPE_LABELS[t] })),
 ];
 
-function nextDay(iso: string): string {
-  const d = new Date(iso + "T00:00:00");
-  d.setDate(d.getDate() + 1);
-  return toISODate(d);
-}
-
 export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "page" }) {
   const router = useRouter();
-  const today = todayISO();
 
   const [location, setLocation] = useState("Весь Иссык-Куль");
   const [checkIn, setCheckIn] = useState("");
@@ -36,14 +29,6 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
   const [type, setType] = useState("");
-
-  function handleCheckIn(v: string) {
-    setCheckIn(v);
-    // checkout не может быть раньше или равен check-in
-    if (v && (!checkOut || checkOut <= v)) {
-      setCheckOut(nextDay(v));
-    }
-  }
 
   function submit() {
     const params = new URLSearchParams();
@@ -97,33 +82,17 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
           </div>
         </div>
 
-        {/* Заезд — Выезд */}
+        {/* Заезд — Выезд: единый range picker */}
         <div className={hero ? "" : "md:col-span-4"}>
           <label className="label">Заезд — Выезд</label>
-          <div className="grid min-w-0 grid-cols-2 gap-2">
-            <div className="relative min-w-0">
-              <Calendar className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
-              <input
-                type="date"
-                value={checkIn}
-                min={today}
-                onChange={(e) => handleCheckIn(e.target.value)}
-                className="input min-w-0 pl-8 pr-1 text-sm"
-                aria-label="Дата заезда"
-              />
-            </div>
-            <div className="relative min-w-0">
-              <Calendar className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
-              <input
-                type="date"
-                value={checkOut}
-                min={checkIn ? nextDay(checkIn) : nextDay(today)}
-                onChange={(e) => setCheckOut(e.target.value)}
-                className="input min-w-0 pl-8 pr-1 text-sm"
-                aria-label="Дата выезда"
-              />
-            </div>
-          </div>
+          <DateRangePicker
+            checkIn={checkIn}
+            checkOut={checkOut}
+            onChange={(next) => {
+              setCheckIn(next.checkIn);
+              setCheckOut(next.checkOut);
+            }}
+          />
         </div>
 
         {/* Гости */}

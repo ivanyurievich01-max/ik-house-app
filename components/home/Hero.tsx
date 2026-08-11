@@ -28,7 +28,9 @@ const TRUST = [
 export default function Hero() {
   return (
     <section className="relative -mt-16 bg-ink">
-      <div className="relative w-full overflow-hidden pb-5 pt-[92px] sm:pt-[100px]">
+      {/* Фото и overlay — в отдельном absolute-слое с overflow-hidden,
+          чтобы попапы календаря/гостей из поиска НЕ обрезались hero-контейнером */}
+      <div className="absolute inset-0 overflow-hidden">
         <SafeImage
           src="/images/home/hero-issyk-kul.webp"
           alt="Коттедж у озера Иссык-Куль на фоне гор"
@@ -40,7 +42,9 @@ export default function Hero() {
         {/* Overlay: слева темнее (под текст), сверху — под header, справа виден коттедж */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b1630]/80 via-[#0b1630]/40 to-[#0b1630]/10" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1630]/55 via-transparent to-[#0b1630]/70" />
+      </div>
 
+      <div className="relative w-full pb-4 pt-[92px] sm:pt-[100px]">
         <div className="container-page relative">
           <div className="max-w-2xl text-white animate-fade-in">
             <h1 className="text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl xl:text-6xl">

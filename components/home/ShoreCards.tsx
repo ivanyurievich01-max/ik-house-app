@@ -27,15 +27,9 @@ const SHORES = [
 
 export default function ShoreCards() {
   return (
-    <section className="container-page pb-10 pt-6 sm:pb-12 sm:pt-8">
-      <div className="mb-4">
-        <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-          Выберите берег
-        </h2>
-        <p className="mt-1 text-ink-muted">
-          Два берега — два разных отдыха на одном озере.
-        </p>
-      </div>
+    <section className="container-page pb-10 pt-5 sm:pb-12 sm:pt-6">
+      {/* Заголовок секции убран по референсу: карточки идут сразу после Hero */}
+      <h2 className="sr-only">Выберите берег</h2>
       <div className="grid gap-5 md:grid-cols-2">
         {SHORES.map((s) => (
           <Link
