@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Heart, Menu, X } from "lucide-react";
 import Logo from "@/components/layout/Logo";
 import UserMenu, { UserMenuMobile } from "@/components/auth/UserMenu";
@@ -19,20 +20,45 @@ const NAV = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const { ids, ready } = useFavorites();
   const count = ready ? ids.length : 0;
 
+  // На главной header лежит поверх Hero (прозрачный, белый текст);
+  // после скролла плавно становится обычным белым.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const onHero = pathname === "/" && !scrolled && !open;
+
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-md">
+    <header
+      className={cn(
+        "sticky top-0 z-40 border-b transition-colors duration-300",
+        onHero
+          ? "header-on-hero border-transparent bg-transparent"
+          : "border-slate-200 bg-white/85 backdrop-blur-md",
+      )}
+    >
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Logo />
+        <Logo variant={onHero ? "white" : "dark"} />
 
         <nav className="hidden items-center gap-1 lg:flex">
           {NAV.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-slate-100 hover:text-ink"
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition",
+                onHero
+                  ? "text-white/90 hover:bg-white/10 hover:text-white"
+                  : "text-ink-soft hover:bg-slate-100 hover:text-ink",
+              )}
             >
               {item.label}
             </Link>
@@ -42,7 +68,12 @@ export default function Header() {
         <div className="flex items-center gap-1.5">
           <Link
             href="/favorites"
-            className="relative hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-slate-100 sm:inline-flex"
+            className={cn(
+              "relative hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition sm:inline-flex",
+              onHero
+                ? "text-white/90 hover:bg-white/10 hover:text-white"
+                : "text-ink-soft hover:bg-slate-100",
+            )}
           >
             <Heart className="h-4 w-4" />
             Избранное
@@ -56,7 +87,12 @@ export default function Header() {
           <Link
             href="/favorites"
             aria-label="Избранное"
-            className="relative grid h-9 w-9 place-items-center rounded-lg text-ink-soft hover:bg-slate-100 sm:hidden"
+            className={cn(
+              "relative grid h-9 w-9 place-items-center rounded-lg sm:hidden",
+              onHero
+                ? "text-white hover:bg-white/10"
+                : "text-ink-soft hover:bg-slate-100",
+            )}
           >
             <Heart className="h-5 w-5" />
             {count > 0 && (
@@ -72,7 +108,10 @@ export default function Header() {
             type="button"
             aria-label="Меню"
             onClick={() => setOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center rounded-lg text-ink hover:bg-slate-100 lg:hidden"
+            className={cn(
+              "grid h-9 w-9 place-items-center rounded-lg lg:hidden",
+              onHero ? "text-white hover:bg-white/10" : "text-ink hover:bg-slate-100",
+            )}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>

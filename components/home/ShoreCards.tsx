@@ -27,8 +27,8 @@ const SHORES = [
 
 export default function ShoreCards() {
   return (
-    <section className="container-page py-10 sm:py-12">
-      <div className="mb-5">
+    <section className="container-page pb-10 pt-6 sm:pb-12 sm:pt-8">
+      <div className="mb-4">
         <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
           Выберите берег
         </h2>

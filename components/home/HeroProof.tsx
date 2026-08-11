@@ -28,7 +28,7 @@ export default function HeroProof() {
   }, []);
 
   return (
-    <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-3 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
       <div className="inline-flex w-fit items-center gap-3 rounded-full bg-ink/45 px-4 py-2 backdrop-blur-sm">
         <span className="flex -space-x-2.5">
           {AVATARS.map((src) => (
