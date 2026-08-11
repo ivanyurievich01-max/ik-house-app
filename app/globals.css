@@ -52,6 +52,22 @@ body {
     @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slate-400
     focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
   }
+  /* iOS Safari: у input[type="date"] жёсткая внутренняя минимальная ширина,
+     из-за которой поля вылезают за viewport внутри grid/flex-раскладок
+     (не сжимаются ниже intrinsic size даже при w-full + minmax(0,1fr)).
+     Сбрасываем нативный appearance и min-width — причина, а не маскировка. */
+  input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 42px;
+    text-align: left;
+  }
+  input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+    margin: 0;
+  }
   .label {
     @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-muted;
   }
