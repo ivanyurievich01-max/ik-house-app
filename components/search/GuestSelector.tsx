@@ -13,8 +13,9 @@ export default function GuestSelector({
   adults: number;
   kids: number;
   onChange: (next: { adults: number; children: number }) => void;
-  /** field — обычное поле (desktop); row — половинка строки мобильной панели */
-  variant?: "field" | "row";
+  /** field — обычное поле (desktop); row — половинка строки мобильной панели;
+   *  bar — компактный сегмент однострочного mobile search bar */
+  variant?: "field" | "row" | "bar";
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -76,8 +77,25 @@ export default function GuestSelector({
   );
 
   return (
-    <div className={variant === "row" ? "" : "relative"} ref={ref}>
-      {variant === "row" ? (
+    <div className={variant === "row" ? "" : variant === "bar" ? "h-full" : "relative"} ref={ref}>
+      {variant === "bar" ? (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Гости"
+          className="flex h-full w-full items-center gap-1.5 px-2 py-1.5 text-left"
+        >
+          <Users className="h-[18px] w-[18px] shrink-0 text-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[12px] font-bold leading-tight text-ink">
+              {pluralGuests(total)}
+            </span>
+            <span className="block truncate text-[10px] leading-tight text-ink-muted">
+              Гости
+            </span>
+          </span>
+        </button>
+      ) : variant === "row" ? (
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}

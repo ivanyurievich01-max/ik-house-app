@@ -28,8 +28,8 @@ export default function HeroProof() {
   }, []);
 
   return (
-    <div className="mt-3 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-      <div className="inline-flex w-fit items-center gap-3 rounded-full bg-ink/45 px-4 py-2 backdrop-blur-sm">
+    <div className="mt-2.5 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="inline-flex w-fit items-center gap-3 rounded-full bg-ink/45 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
         <span className="flex -space-x-2.5">
           {AVATARS.map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
@@ -50,7 +50,7 @@ export default function HeroProof() {
         </span>
       </div>
 
-      <div className="inline-flex w-fit items-center gap-2 rounded-full bg-ink/45 px-4 py-2 backdrop-blur-sm">
+      <div className="inline-flex w-fit items-center gap-2 rounded-full bg-ink/45 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
         <Flame className="h-4 w-4 shrink-0 text-amber-400" />
         <span className="text-sm font-medium text-white">
           Популярные варианты быстро разбирают

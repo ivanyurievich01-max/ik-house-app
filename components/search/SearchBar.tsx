@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MapPin, Home, ArrowRight, Search, ChevronRight } from "lucide-react";
+import { MapPin, Home, ArrowRight, Search } from "lucide-react";
 import GuestSelector from "@/components/search/GuestSelector";
 import DateRangePicker from "@/components/search/DateRangePicker";
 import OptionSheet from "@/components/search/OptionSheet";
@@ -58,45 +58,46 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         hero ? "p-2 lg:rounded-[20px] lg:p-4" : "p-3",
       )}
     >
-      {/* ===== Mobile / tablet: компактная row-панель как в утверждённом макете ===== */}
-      <div className="lg:hidden">
+      {/* ===== Mobile / tablet: ОДНА горизонтальная строка (финальный макет) ===== */}
+      <div className="flex h-[64px] items-stretch gap-1 lg:hidden">
         {/* Локация */}
         <button
           type="button"
           onClick={() => setLocSheet(true)}
-          className="flex w-full items-center gap-3 px-4 py-3 text-left"
+          className="flex min-w-0 flex-[1.15] items-center gap-1.5 px-2 py-1.5 text-left"
         >
-          <MapPin className="h-5 w-5 shrink-0 text-ink" />
+          <MapPin className="h-[18px] w-[18px] shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
+            <span className="block truncate text-[12px] font-bold leading-tight text-ink">
+              {location === "Весь Иссык-Куль" ? "Иссык-Куль" : location}
+            </span>
+            <span className="block truncate text-[10px] leading-tight text-ink-muted">
               Куда хотите?
             </span>
-            <span className="block truncate text-[15px] font-bold text-ink">
-              {location}
-            </span>
           </span>
-          <ChevronRight className="h-4 w-4 shrink-0 text-ink-muted" />
         </button>
 
-        <div className="mx-4 border-t border-slate-100" />
+        <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Заезд — Выезд */}
-        <DateRangePicker
-          variant="row"
-          checkIn={checkIn}
-          checkOut={checkOut}
-          onChange={(next) => {
-            setCheckIn(next.checkIn);
-            setCheckOut(next.checkOut);
-          }}
-        />
+        <div className="min-w-0 flex-[1.35]">
+          <DateRangePicker
+            variant="bar"
+            checkIn={checkIn}
+            checkOut={checkOut}
+            onChange={(next) => {
+              setCheckIn(next.checkIn);
+              setCheckOut(next.checkOut);
+            }}
+          />
+        </div>
 
-        <div className="mx-4 border-t border-slate-100" />
+        <div className="my-2 w-px shrink-0 bg-slate-200" />
 
-        {/* Гости | Тип жилья */}
-        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        {/* Гости */}
+        <div className="min-w-0 flex-[0.85]">
           <GuestSelector
-            variant="row"
+            variant="bar"
             adults={adults}
             kids={children}
             onChange={(n) => {
@@ -104,31 +105,41 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
               setChildren(n.children);
             }}
           />
+        </div>
+
+        <div className="my-2 w-px shrink-0 bg-slate-200" />
+
+        {/* Тип жилья */}
+        <button
+          type="button"
+          onClick={() => setTypeSheet(true)}
+          className="flex min-w-0 flex-[1] items-center gap-1.5 px-2 py-1.5 text-left"
+        >
+          <Home className="h-[18px] w-[18px] shrink-0 text-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[12px] font-bold leading-tight text-ink">
+              {typeLabel}
+            </span>
+            <span className="block truncate text-[10px] leading-tight text-ink-muted">
+              Тип жилья
+            </span>
+          </span>
+        </button>
+
+        {/* Кнопка поиска */}
+        <div className="flex shrink-0 items-center pl-0.5">
           <button
             type="button"
-            onClick={() => setTypeSheet(true)}
-            className="flex w-full items-center gap-2 border-l border-slate-100 px-3 py-3 text-left"
+            onClick={submit}
+            aria-label="Показать варианты"
+            className="grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
           >
-            <Home className="h-[18px] w-[18px] shrink-0 text-ink" />
-            <span className="min-w-0 flex-1">
-              <span className="block text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
-                Тип жилья
-              </span>
-              <span className="block truncate text-[14px] font-bold text-ink">
-                {typeLabel}
-              </span>
-            </span>
-            <ChevronRight className="h-4 w-4 shrink-0 text-ink-muted" />
+            <Search className="h-5 w-5" />
           </button>
         </div>
+      </div>
 
-        {/* CTA */}
-        <div className="px-2 pb-2 pt-1.5">
-          <button onClick={submit} className="btn-cta h-14 w-full rounded-2xl text-base">
-            Показать варианты <ArrowRight className="h-5 w-5" />
-          </button>
-        </div>
-
+      <div className="lg:hidden">
         <OptionSheet
           open={locSheet}
           title="Куда хотите?"

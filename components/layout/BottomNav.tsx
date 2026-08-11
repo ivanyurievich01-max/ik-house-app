@@ -67,7 +67,7 @@ export default function BottomNav() {
       {/* распорка, чтобы контент/footer не прятался под навигацией */}
       <div
         aria-hidden
-        className="h-16 lg:hidden"
+        className="h-[60px] lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       />
       <nav
@@ -75,7 +75,7 @@ export default function BottomNav() {
         className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#0b1630]/95 backdrop-blur lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        <div className="mx-auto flex h-16 max-w-lg items-stretch">
+        <div className="mx-auto flex h-[60px] max-w-lg items-stretch">
           {items.map((item) => {
             const active = item.exact
               ? pathname === item.href
@@ -86,7 +86,7 @@ export default function BottomNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition",
+                  "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition",
                   active ? "text-brand-400" : "text-slate-400",
                 )}
               >
