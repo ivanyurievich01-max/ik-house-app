@@ -38,13 +38,14 @@ export default function SeasonalBanner({ stats }: { stats: BannerStats }) {
     <section className="container-page py-10 sm:py-12">
       <div className="relative overflow-hidden rounded-2xl shadow-card-hover">
         <SafeImage
-          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1800&q=70"
-          alt="Ночные горы над Иссык-Кулем"
+          src="/images/home/summer-banner.webp"
+          alt="Отдых у костра на берегу Иссык-Куля"
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[60%_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1630]/90 via-[#0d1b3a]/75 to-[#0b1630]/60" />
+        {/* Navy-overlay: слева темнее под текст, люди у костра остаются видны */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1630]/90 via-[#0d1b3a]/60 to-[#0b1630]/45" />
 
         <div className="relative flex flex-col justify-between gap-8 px-6 py-9 text-white sm:px-10 sm:py-11 lg:flex-row lg:items-center">
           <div className="max-w-xl">
