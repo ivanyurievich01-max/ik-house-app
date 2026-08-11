@@ -20,10 +20,12 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Прячем горизонтальный скролл на всякий случай */
+/* Страховка от горизонтального скролла.
+   ВАЖНО: clip, а не hidden — overflow-x:hidden на html/body
+   превращает body в scroll-контейнер и ломает position:sticky (шапку). */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @layer components {
