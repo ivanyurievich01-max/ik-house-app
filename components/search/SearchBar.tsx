@@ -64,11 +64,11 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <button
           type="button"
           onClick={() => setLocSheet(true)}
-          className="flex min-w-0 flex-[1.15] items-center gap-1 px-1 py-1 text-left"
+          className="flex min-w-0 flex-[1.15] items-center gap-1 px-0 py-1 text-left"
         >
-          <MapPin className="h-4 w-4 shrink-0 text-ink" />
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[11px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[10px] font-bold leading-tight text-ink">
               {location === "Весь Иссык-Куль" ? "Иссык-Куль" : location}
             </span>
             <span className="block truncate text-[9px] leading-tight text-ink-muted">
@@ -113,11 +113,11 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <button
           type="button"
           onClick={() => setTypeSheet(true)}
-          className="flex min-w-0 flex-[1.05] items-center gap-1 px-1 py-1 text-left"
+          className="flex min-w-0 flex-[1.05] items-center gap-1 px-0 py-1 text-left"
         >
-          <Home className="h-4 w-4 shrink-0 text-ink" />
+          <Home className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[11px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[10px] font-bold leading-tight text-ink">
               {typeLabel}
             </span>
             <span className="block truncate text-[9px] leading-tight text-ink-muted">

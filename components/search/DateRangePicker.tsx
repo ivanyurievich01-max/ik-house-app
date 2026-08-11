@@ -267,13 +267,13 @@ export default function DateRangePicker({
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label="Заезд — выезд"
-          className="flex h-full w-full items-center gap-1 px-1 py-1 text-left"
+          className="flex h-full w-full items-center gap-1 px-0 py-1 text-left"
         >
-          <Calendar className="h-4 w-4 shrink-0 text-ink" />
+          <Calendar className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
             <span
               className={cn(
-                "block truncate text-[11px] font-bold leading-tight",
+                "block truncate text-[10px] font-bold leading-tight",
                 checkIn ? "text-ink" : "text-ink",
               )}
             >
