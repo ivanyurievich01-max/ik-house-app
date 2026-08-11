@@ -64,7 +64,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <button
           type="button"
           onClick={() => setLocSheet(true)}
-          className="flex min-w-0 flex-[1.12] items-center gap-1 px-0 py-1 text-left"
+          className="flex min-w-0 flex-[1.2] items-center gap-1 px-0 py-1 text-left"
         >
           <MapPin className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Гости */}
-        <div className="min-w-0 flex-[0.85]">
+        <div className="min-w-0 flex-[0.78]">
           <GuestSelector
             variant="bar"
             adults={adults}
@@ -132,7 +132,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
             type="button"
             onClick={submit}
             aria-label="Показать варианты"
-            className="grid h-[44px] w-[44px] place-items-center rounded-xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
+            className="grid h-[42px] w-[42px] place-items-center rounded-xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
           >
             <Search className="h-5 w-5" />
           </button>
