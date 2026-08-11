@@ -26,15 +26,15 @@ export default function Hero() {
     <section className="relative bg-ink">
       <div className="relative w-full overflow-hidden pb-6 pt-10 sm:pt-14">
         <SafeImage
-          src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2000&q=75"
-          alt="Вечер на Иссык-Куле: дом у воды на фоне гор"
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=75"
+          alt="Вечерние горы над Иссык-Кулем на закате"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
         {/* Тёмный вечерний overlay для читаемости */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1630]/85 via-[#0d1b3a]/55 to-[#0b1630]/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1630]/70 via-[#0b1630]/30 to-[#0b1630]/90" />
 
         <div className="container-page relative">
           <div className="max-w-2xl text-white animate-fade-in">
