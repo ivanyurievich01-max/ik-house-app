@@ -257,7 +257,7 @@ export default function DateRangePicker({
         : `${fmtShort(checkIn)} – ${fmtShort(checkOut)}`;
     }
     if (checkIn) return `${fmtShort(checkIn)} – ?`;
-    return "Выберите даты";
+    return "Выбрать даты";
   })();
 
   return (
@@ -267,19 +267,19 @@ export default function DateRangePicker({
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label="Заезд — выезд"
-          className="flex h-full w-full items-center gap-1.5 px-2 py-1.5 text-left"
+          className="flex h-full w-full items-center gap-1 px-1 py-1 text-left"
         >
-          <Calendar className="h-[18px] w-[18px] shrink-0 text-ink" />
+          <Calendar className="h-4 w-4 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
             <span
               className={cn(
-                "block truncate text-[12px] font-bold leading-tight",
+                "block truncate text-[11px] font-bold leading-tight",
                 checkIn ? "text-ink" : "text-ink",
               )}
             >
               {barValue}
             </span>
-            <span className="block truncate text-[10px] leading-tight text-ink-muted">
+            <span className="block truncate text-[9px] leading-tight text-ink-muted">
               Заезд — выезд
             </span>
           </span>

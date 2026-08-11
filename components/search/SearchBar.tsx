@@ -55,23 +55,23 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
     <div
       className={cn(
         "rounded-2xl border border-slate-200 bg-white shadow-card-hover",
-        hero ? "p-2 lg:rounded-[20px] lg:p-4" : "p-3",
+        hero ? "p-1.5 lg:rounded-[20px] lg:p-4" : "p-3",
       )}
     >
       {/* ===== Mobile / tablet: ОДНА горизонтальная строка (финальный макет) ===== */}
-      <div className="flex h-[64px] items-stretch gap-1 lg:hidden">
+      <div className="flex h-[60px] items-stretch gap-0.5 lg:hidden">
         {/* Локация */}
         <button
           type="button"
           onClick={() => setLocSheet(true)}
-          className="flex min-w-0 flex-[1.15] items-center gap-1.5 px-2 py-1.5 text-left"
+          className="flex min-w-0 flex-[1.15] items-center gap-1 px-1 py-1 text-left"
         >
-          <MapPin className="h-[18px] w-[18px] shrink-0 text-ink" />
+          <MapPin className="h-4 w-4 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[12px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[11px] font-bold leading-tight text-ink">
               {location === "Весь Иссык-Куль" ? "Иссык-Куль" : location}
             </span>
-            <span className="block truncate text-[10px] leading-tight text-ink-muted">
+            <span className="block truncate text-[9px] leading-tight text-ink-muted">
               Куда хотите?
             </span>
           </span>
@@ -80,7 +80,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Заезд — Выезд */}
-        <div className="min-w-0 flex-[1.35]">
+        <div className="min-w-0 flex-[1.3]">
           <DateRangePicker
             variant="bar"
             checkIn={checkIn}
@@ -95,7 +95,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Гости */}
-        <div className="min-w-0 flex-[0.85]">
+        <div className="min-w-0 flex-[0.75]">
           <GuestSelector
             variant="bar"
             adults={adults}
@@ -113,14 +113,14 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <button
           type="button"
           onClick={() => setTypeSheet(true)}
-          className="flex min-w-0 flex-[1] items-center gap-1.5 px-2 py-1.5 text-left"
+          className="flex min-w-0 flex-[1.05] items-center gap-1 px-1 py-1 text-left"
         >
-          <Home className="h-[18px] w-[18px] shrink-0 text-ink" />
+          <Home className="h-4 w-4 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[12px] font-bold leading-tight text-ink">
+            <span className="block truncate text-[11px] font-bold leading-tight text-ink">
               {typeLabel}
             </span>
-            <span className="block truncate text-[10px] leading-tight text-ink-muted">
+            <span className="block truncate text-[9px] leading-tight text-ink-muted">
               Тип жилья
             </span>
           </span>
@@ -132,7 +132,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
             type="button"
             onClick={submit}
             aria-label="Показать варианты"
-            className="grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
+            className="grid h-[46px] w-[46px] place-items-center rounded-xl bg-brand-600 text-white shadow-sm transition active:bg-brand-700"
           >
             <Search className="h-5 w-5" />
           </button>
