@@ -44,21 +44,21 @@ async function icon(size, radiusRatio, glyphRatio, out) {
 mkdirSync("public/icons", { recursive: true });
 
 // Manifest icons (purpose any) — скруглённый квадрат
-await icon(192, 0.24, 0.62, "public/icons/icon-192.png");
-await icon(512, 0.24, 0.62, "public/icons/icon-512.png");
+await icon(192, 0.24, 0.78, "public/icons/icon-192.png");
+await icon(512, 0.24, 0.78, "public/icons/icon-512.png");
 // Maskable — полная заливка, знак в safe zone
-await icon(512, 0, 0.46, "public/icons/icon-maskable-512.png");
+await icon(512, 0, 0.52, "public/icons/icon-maskable-512.png");
 // Apple touch — полная заливка (iOS сам скругляет)
-await icon(180, 0, 0.6, "public/icons/apple-touch-icon.png");
+await icon(180, 0, 0.8, "public/icons/apple-touch-icon.png");
 // Next.js file-based
-await icon(512, 0.24, 0.62, "app/icon.png");
-await icon(180, 0, 0.6, "app/apple-icon.png");
+await icon(512, 0.24, 0.78, "app/icon.png");
+await icon(180, 0, 0.8, "app/apple-icon.png");
 
 // favicon.ico (16/32/48)
 const sizes = [16, 32, 48];
 const bufs = [];
 for (const s of sizes) {
-  await icon(s, 0.24, 0.68, `/tmp/fav-${s}.png`);
+  await icon(s, 0.24, 0.8, `/tmp/fav-${s}.png`);
   bufs.push(await sharp(`/tmp/fav-${s}.png`).png().toBuffer());
 }
 function buildIco(pngs, dims) {
