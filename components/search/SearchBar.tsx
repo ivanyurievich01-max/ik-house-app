@@ -64,7 +64,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <button
           type="button"
           onClick={() => setLocSheet(true)}
-          className="flex min-w-0 flex-[1.15] items-center gap-1 px-0 py-1 text-left"
+          className="flex min-w-0 flex-[1.12] items-center gap-1 px-0 py-1 text-left"
         >
           <MapPin className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span className="min-w-0 flex-1">
@@ -80,7 +80,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Заезд — Выезд */}
-        <div className="min-w-0 flex-[1.3]">
+        <div className="min-w-0 flex-[1.27]">
           <DateRangePicker
             variant="bar"
             checkIn={checkIn}
@@ -95,7 +95,7 @@ export default function SearchBar({ variant = "hero" }: { variant?: "hero" | "pa
         <div className="my-2 w-px shrink-0 bg-slate-200" />
 
         {/* Гости */}
-        <div className="min-w-0 flex-[0.75]">
+        <div className="min-w-0 flex-[0.85]">
           <GuestSelector
             variant="bar"
             adults={adults}
